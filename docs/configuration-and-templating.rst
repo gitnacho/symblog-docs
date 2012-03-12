@@ -327,7 +327,7 @@ The Template (The View)
 As you can see the template is very simple. It prints out Hello followed
 by the name argument passed over from the controller.
 
-.. code-block:: html
+.. code-block:: html+jinja
 
     {# src/Blogger/BlogBundle/Resources/views/Default/index.html.twig #}
     Hello {{ name }}!
@@ -383,7 +383,7 @@ Lets start by creating our basic block level template for symblog. We need 2
 files here, the template and the CSS. As Symfony2 supports
 `HTML5 <http://diveintohtml5.org/>`_ we will also be using it.
 
-.. code-block:: html
+.. code-block:: html+jinja
 
     <!-- app/Resources/views/base.html.twig -->
     <!DOCTYPE html>
@@ -454,7 +454,7 @@ Twig directives that we will examine now.
 
 We will start by focusing on the document HEAD. Lets look at the title:
 
-.. code-block:: html
+.. code-block:: html+jinja
 
     <title>{% block title %}symblog{% endblock %} - symblog</title>
 
@@ -470,7 +470,7 @@ can take advantage of Twig's inheritance model. For example, on a page to
 display a blog post we would want the page title to reflect the title of the
 blog. We can achieve this by extending the template and overriding the title block.
 
-.. code-block:: html
+.. code-block:: html+jinja
 
     {% extends '::base.html.twig' %}
 
@@ -492,7 +492,7 @@ Twig will be used extensively when creating templates.
 In the stylesheets block we are introduced to the next Twig tag, the ``{{`` tag,
 or the ``Say something`` tag.
 
-.. code-block:: html
+.. code-block:: html+jinja
 
     <link href="{{ asset('css/screen.css') }}" type="text/css" rel="stylesheet" />
 
@@ -503,7 +503,7 @@ a portable way to link to the application assets, such as CSS, JavaScript, and i
 The ``{{`` tag can also be combined with filters to manipulate the output before
 printing.
 
-.. code-block:: html
+.. code-block:: html+jinja
 
     {{ blog.created|date("d-m-Y") }}
 
@@ -513,7 +513,7 @@ For a full list of filters check the
 The last Twig tag, which we have not seen in the templates is the comment tag ``{#``.
 Its usage is as follows:
 
-.. code-block:: html
+.. code-block:: html+jinja
 
     {# The quick brown fox jumps over the lazy dog #}
 
@@ -561,7 +561,7 @@ We now move onto creating the layout for the Blog bundle. Create a file located 
 ``src/Blogger/BlogBundle/Resources/views/layout.html.twig`` and add the
 following content.
 
-.. code-block:: html
+.. code-block:: html+jinja
 
     {# src/Blogger/BlogBundle/Resources/views/layout.html.twig #}
     {% extends '::base.html.twig' %}
@@ -618,7 +618,7 @@ Now create the template for this action. As you can see in the controller action
 we are going to render the Page index template. Create the template at
 ``src/Blogger/BlogBundle/Resources/views/Page/index.html.twig``
 
-.. code-block:: html
+.. code-block:: html+jinja
 
     {# src/Blogger/BlogBundle/Resources/views/Page/index.html.twig #}
     {% extends 'BloggerBlogBundle::layout.html.twig' %}
@@ -692,7 +692,7 @@ Next open the ``Page`` controller located at
 to handle the about page.
 
 .. code-block:: php
-
+   :emphasize: 6-9
     // src/Blogger/BlogBundle/Controller/PageController.php
     class PageController extends Controller
     {
@@ -711,7 +711,7 @@ For the view, create a new file located at
 ``src/Blogger/BlogBundle/Resources/views/Page/about.html.twig`` and copy in the
 following content.
 
-.. code-block:: html
+.. code-block:: html+jinja
 
     {# src/Blogger/BlogBundle/Resources/views/Page/about.html.twig #}
     {% extends 'BloggerBlogBundle::layout.html.twig' %}
@@ -773,7 +773,8 @@ both very similar, except the ``url`` method will provide us with absolute URLs.
 update the main application template located at ``app/Resources/views/base.html.twig`` to link
 to the about page and homepage together.
 
-.. code-block:: html
+.. code-block:: html+jinja
+   :emphasize: 5,6
 
     <!-- app/Resources/views/base.html.twig -->
     {% block navigation %}
@@ -794,7 +795,8 @@ it.
 Finally lets update the logo links to redirect you back to the homepage. Update the
 template located at ``app/Resources/views/base.html.twig``.
 
-.. code-block:: html
+.. code-block:: html+jinja
+   :emphasize: 3,4
 
     <!-- app/Resources/views/base.html.twig -->
     <hgroup>

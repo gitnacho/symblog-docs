@@ -28,7 +28,7 @@ Doctrine 2 will be able to retrieve the comments for a blog (remember we added a
 located at ``src/Blogger/BlogBundle/Resources/views/Page/index.html.twig`` with
 the following.
 
-.. code-block:: html
+.. code-block:: html+jinja
 
     {# src/Blogger/BlogBundle/Resources/views/Page/index.html.twig #}
 

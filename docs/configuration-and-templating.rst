@@ -692,7 +692,8 @@ Next open the ``Page`` controller located at
 to handle the about page.
 
 .. code-block:: php
-   :emphasize: 6-9
+   :emphasize-lines: 6-9
+
     // src/Blogger/BlogBundle/Controller/PageController.php
     class PageController extends Controller
     {
@@ -774,7 +775,7 @@ update the main application template located at ``app/Resources/views/base.html.
 to the about page and homepage together.
 
 .. code-block:: html+jinja
-   :emphasize: 5,6
+   :emphasize-lines: 5,6
 
     <!-- app/Resources/views/base.html.twig -->
     {% block navigation %}
@@ -796,7 +797,7 @@ Finally lets update the logo links to redirect you back to the homepage. Update 
 template located at ``app/Resources/views/base.html.twig``.
 
 .. code-block:: html+jinja
-   :emphasize: 3,4
+   :emphasize-lines: 3,4
 
     <!-- app/Resources/views/base.html.twig -->
     <hgroup>

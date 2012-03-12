@@ -65,7 +65,7 @@ View
 Create the contact page view at ``src/Blogger/BlogBundle/Resources/views/Page/contact.html.twig``
 and add the following content.
 
-.. code-block:: html
+.. code-block:: html+jinja
 
     {# src/Blogger/BlogBundle/Resources/views/Page/contact.html.twig #}
     {% extends 'BloggerBlogBundle::layout.html.twig' %}
@@ -90,7 +90,8 @@ Linking to the page
 Lastly we need to update the link in the application template located
 at ``app/Resources/views/base.html.twig`` to link to the contact page.
 
-.. code-block:: html
+.. code-block:: html+jinja
+   :emphasize-lines: 6
 
     <!-- app/Resources/views/base.html.twig -->
     {% block navigation %}
@@ -279,6 +280,7 @@ use them. Replace the content of the contact action located at
 ``src/Blogger/BlogBundle/Controller/PageController.php`` with the following.
 
 .. code-block:: php
+   :emphasize-lines: 4-22
 
     // src/Blogger/BlogBundle/Controller/PageController.php
     public function contactAction()
@@ -327,7 +329,7 @@ Update the controller file located at ``src/Blogger/BlogBundle/Controller/PageCo
 with the following. The statements should be placed under the existing ``use`` statement.
 
 .. code-block:: php
-
+   :emphasize-lines: 7-9
     <?php
     // src/Blogger/BlogBundle/Controller/PageController.php
 
@@ -352,7 +354,7 @@ you require.
 To demonstrate the power of Twig's methods we can use the following snippet
 to render the entire form.
 
-.. code-block:: html
+.. code-block:: html+jinja
 
     <form action="{{ path('BloggerBlogBundle_contact') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
@@ -367,7 +369,8 @@ For our contact form, we will opt for the middle ground. Replace the template
 code located at ``src/Blogger/BlogBundle/Resources/views/Page/contact.html.twig``
 with the following.
 
-.. code-block:: html
+.. code-block:: html+jinja
+   :emphasize-lines: 14-23
 
     {# src/Blogger/BlogBundle/Resources/views/Page/contact.html.twig #}
     {% extends 'BloggerBlogBundle::layout.html.twig' %}
@@ -453,7 +456,7 @@ also use this stylesheet later, it makes sense to import it into the
 ``src/Blogger/BlogBundle/Resources/views/layout.html.twig`` and replace
 with the following content.
 
-.. code-block:: html
+.. code-block:: html+jinja
 
     {# src/Blogger/BlogBundle/Resources/views/layout.html.twig #}
     {% extends '::base.html.twig' %}
@@ -533,6 +536,7 @@ Lets update the contact route located at
 ``src/Blogger/BlogBundle/Resources/config/routing.yml`` to also allow POST requests.
 
 .. code-block:: yaml
+   :emphasize-lines: 6
 
     # src/Blogger/BlogBundle/Resources/config/routing.yml
     BloggerBlogBundle_contact:
@@ -566,6 +570,7 @@ Let's begin by updating the ``Enquiry`` entity located at
 Ensure you add the 5 new ``use`` statements at the top of the file.
 
 .. code-block:: php
+   :emphasize-lines: 6-10
 
     <?php
     // src/Blogger/BlogBundle/Entity/Enquiry.php
@@ -706,6 +711,7 @@ Update the ``Page`` controller located at
 with the content below.
 
 .. code-block:: php
+   :emphasize-lines: 8-15
 
     // src/Blogger/BlogBundle/Controller/PageController.php
 
@@ -756,7 +762,8 @@ To display the ``flash`` message we need to update the contact template
 located at ``src/Blogger/BlogBundle/Resources/views/Page/contact.html.twig``.
 Update the content of the template with the following.
 
-.. code-block:: html
+.. code-block:: html+jinja
+  :emphasize-lines: 8-12
 
     {# src/Blogger/BlogBundle/Resources/views/Page/contact.html.twig #}
 
@@ -792,6 +799,7 @@ onto your assistant. Create a new file at
 following.
 
 .. code-block:: yaml
+  :emphasize-lines: 4
 
     # src/Blogger/BlogBundle/Resources/config/config.yml
     parameters:
@@ -810,6 +818,7 @@ the config into the main application config file located at ``app/config/config.
 To achieve this, update the ``imports`` directive at the top of the file to the following.
 
 .. code-block:: yaml
+   :emphasize-lines: 4
 
     # app/config/config.yml
     imports:
@@ -823,6 +832,7 @@ The import path is the physical location of the file on disk. The
 Finally let's update the contact action to use the parameter.
 
 .. code-block:: php
+   :emphasize-lines: 11
 
     // src/Blogger/BlogBundle/Controller/PageController.php
 
@@ -851,6 +861,7 @@ Finally let's update the contact action to use the parameter.
     would override the bundle set value for the parameter.
 
     .. code-block:: yaml
+       :emphasize-lines: 3-4
 
         # app/config/config.yml
         parameters:
@@ -874,7 +885,7 @@ The body of the email is set to render a template. Create this template at
 ``src/Blogger/BlogBundle/Resources/views/Page/contactEmail.txt.twig`` and add
 the following.
 
-.. code-block:: text
+.. code-block:: html+jinja
 
     {# src/Blogger/BlogBundle/Resources/views/Page/contactEmail.txt.twig #}
     A contact enquiry was made by {{ enquiry.name }} at {{ "now" | date("Y-m-d H:i") }}.
@@ -906,6 +917,7 @@ When you now submit an enquiry, an email will be sent to the address set in the
     ``app/config/config_test.yml``.
 
     .. code-block:: yaml
+       :emphasize-lines: 2-3
 
         # app/config/config_test.yml
         swiftmailer:

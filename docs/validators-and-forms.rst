@@ -91,7 +91,7 @@ Lastly we need to update the link in the application template located
 at ``app/Resources/views/base.html.twig`` to link to the contact page.
 
 .. code-block:: html+jinja
-   :emphasize-lines: 6
+   :emphasize-lines: 7
 
     <!-- app/Resources/views/base.html.twig -->
     {% block navigation %}
@@ -330,6 +330,7 @@ with the following. The statements should be placed under the existing ``use`` s
 
 .. code-block:: php
    :emphasize-lines: 7-9
+
     <?php
     // src/Blogger/BlogBundle/Controller/PageController.php
 
@@ -436,15 +437,19 @@ paste in the following content.
 
 .. code-block:: css
 
-    .blogger-notice { text-align: center; padding: 10px; background: #DFF2BF; border: 1px solid; color: #4F8A10; margin-bottom: 10px; }
+    .blogger-notice { text-align: center; padding: 10px; background: #DFF2BF;
+     border: 1px solid; color: #4F8A10; margin-bottom: 10px; }
     form.blogger { font-size: 16px; }
     form.blogger div { clear: left; margin-bottom: 10px; }
-    form.blogger label { float: left; margin-right: 10px; text-align: right; width: 100px; font-weight: bold; vertical-align: top; padding-top: 10px; }
+    form.blogger label { float: left; margin-right: 10px; text-align: right;
+     width: 100px; font-weight: bold; vertical-align: top; padding-top: 10px; }
     form.blogger input[type="text"],
     form.blogger input[type="email"]
         { width: 500px; line-height: 26px; font-size: 20px; min-height: 26px; }
-    form.blogger textarea { width: 500px; height: 150px; line-height: 26px; font-size: 20px; }
-    form.blogger input[type="submit"] { margin-left: 110px; width: 508px; line-height: 26px; font-size: 20px; min-height: 26px; }
+    form.blogger textarea { width: 500px; height: 150px; line-height: 26px;
+     font-size: 20px; }
+    form.blogger input[type="submit"] { margin-left: 110px; width: 508px;
+     line-height: 26px; font-size: 20px; min-height: 26px; }
     form.blogger ul li { color: #ff0000; margin-bottom: 5px; }
 
 

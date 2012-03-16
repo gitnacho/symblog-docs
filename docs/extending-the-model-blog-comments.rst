@@ -40,6 +40,7 @@ located at ``src/Blogger/BlogBundle/Controller/PageController.php``
 to pull the blogs from the database.
 
 .. code-block:: php
+   :emphasize-lines: 6-17
 
     // src/Blogger/BlogBundle/Controller/PageController.php
     class PageController extends Controller
@@ -56,9 +57,8 @@ to pull the blogs from the database.
                         ->getQuery()
                         ->getResult();
     
-            return $this->render('BloggerBlogBundle:Page:index.html.twig', array(
-                'blogs' => $blogs
-            ));
+            return $this->render('BloggerBlogBundle:Page:index.html.twig',
+                                 array( 'blogs' => $blogs ));
         }
         
         // ..
@@ -89,8 +89,9 @@ Replace the content of the homepage template located at
 ``src/Blogger/BlogBundle/Resources/views/Page/index.html.twig``
 with the following.
 
-.. code-block:: html
-    
+.. code-block:: html+jinja
+   :emphasize-lines: 5-26
+
     {# src/Blogger/BlogBundle/Resources/views/Page/index.html.twig #}
     {% extends 'BloggerBlogBundle::layout.html.twig' %}
 
@@ -101,13 +102,13 @@ with the following.
                 <header>
                     <h2><a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blog.id }) }}">{{ blog.title }}</a></h2>
                 </header>
-        
+
                 <img src="{{ asset(['images/', blog.image]|join) }}" />
                 <div class="snippet">
                     <p>{{ blog.blog(500) }}</p>
                     <p class="continue"><a href="{{ path('BloggerBlogBundle_blog_show', { 'id': blog.id }) }}">Continue reading...</a></p>
                 </div>
-        
+
                 <footer class="meta">
                     <p>Comments: -</p>
                     <p>Posted by <span class="highlight">{{blog.author}}</span> at {{ blog.created|date('h:iA') }}</p>
@@ -154,6 +155,7 @@ receive back from the function. For this to work we need to update the
 ``src/Blogger/BlogBundle/Entity/Blog.php``.
 
 .. code-block:: php
+   :emphasize-lines: 2,4-7
 
     // src/Blogger/BlogBundle/Entity/Blog.php
     public function getBlog($length = null)
@@ -198,21 +200,22 @@ chapter when we created the blog show page. We used the default implementation o
 database via the ``find()`` method. As we want to create a custom query, we
 need to create a custom repository. Doctrine 2 is able to assist in this task.
 Update the ``Blog`` entity metadata located in the file at
-``src/Blogger/BlogBundle/Entity/Blog.php``.
+:file:`src/Blogger/BlogBundle/Entity/Blog.php`.
 
 
 .. code-block:: php
-    
-    // src/Blogger/BlogBundle/Entity/Blog.php
-    /**
-     * @ORM\Entity(repositoryClass="Blogger\BlogBundle\Repository\BlogRepository")
-     * @ORM\Table(name="blog")
-     * @ORM\HasLifecycleCallbacks()
-     */
-    class Blog
-    {
-        // ..
-    }
+   :emphasize-lines: 3
+
+   // src/Blogger/BlogBundle/Entity/Blog.php
+   /**
+    * @ORM\Entity(repositoryClass="Blogger\BlogBundle\Repository\BlogRepository")
+    * @ORM\Table(name="blog")
+    * @ORM\HasLifecycleCallbacks()
+    */
+   class Blog
+   {
+       // ..
+   }
 
 You can see we have specified the namespace location for the ``BlogRepository`` class
 that this entity is associated with. As we have updated the Doctrine 2 metadata
@@ -222,9 +225,9 @@ as follows.
 .. code-block:: bash
 
     $ php app/console doctrine:generate:entities Blogger
-    
-Doctrine 2 will have created the shell class for the ``BlogRepository`` located at
-``src/Blogger/BlogBundle/Repository/BlogRepository.php``.
+
+Doctrine 2 will have created the shell class for the ``BlogRepository`` located
+at :file:`src/Blogger/BlogBundle/Repository/BlogRepository.php`.
 
 .. code-block:: php
 
@@ -333,13 +336,14 @@ the correct tasks.
 More on the Model: Creating the Comment Entity
 ----------------------------------------------
 
-Blogs are only half the story when it comes to blogging. We also need to allow readers
-the ability to comment on blog posts. These comments also need to be persisted, and linked
-to the ``Blog`` entity as a blog can contain many comments.
+Blogs are only half the story when it comes to blogging. We also need to allow
+readers the ability to comment on blog posts. These comments also need to be
+persisted, and linked to the ``Blog`` entity as a blog can contain many
+comments.
 
-We will start by defining the basics of the ``Comment`` Entity class.
-Create a new file located at ``src/Blogger/BlogBundle/Entity/Comment.php`` and
-paste in the following.
+We will start by defining the basics of the ``Comment`` Entity class.  Create a
+new file located at :file:`src/Blogger/BlogBundle/Entity/Comment.php` and paste
+in the following.
 
 .. code-block:: php
 
@@ -491,10 +495,11 @@ we will introduce Doctrine 2 Migrations.
 Doctrine 2 Migrations
 -------------------
 
-The Doctrine 2 Migrations extension and bundle do not come with the Symfony2 Standard
-Distribution, we need to manually install them as we did with the Data Fixtures
-extension and bundle. Open up the ``deps`` file located in the project root and add the
-Doctrine 2 Migrations extension and bundle to it as follows.
+The Doctrine 2 Migrations extension and bundle do not come with the Symfony2
+Standard Distribution, we need to manually install them as we did with the Data
+Fixtures extension and bundle. Open up the :file:`composer.json` file located in
+the project root and add the Doctrine 2 Migrations extension and bundle to it as
+follows.
 
 .. code-block:: text
     
@@ -546,15 +551,21 @@ to bottom so more specific namespaces need to be registered before less specific
 Now lets register the bundle in the kernel located at ``app/AppKernel.php``.
 
 .. code-block:: php
+   :emphasize-lines: 8
 
     // app/AppKernel.php
     public function registerBundles()
     {
         $bundles = array(
+
             // ...
+
             new Symfony\Bundle\DoctrineMigrationsBundle\DoctrineMigrationsBundle(),
+
             // ...
+
         );
+
         // ...
     }
 
@@ -664,8 +675,9 @@ of the fixtures. Blogs must be loaded before comments so we return 1.
 Comment Fixtures
 ~~~~~~~~~~~~~~~~
 
-We are now ready to define some fixtures for our ``Comment`` entity. Create a fixtures file
-at ``src/Blogger/BlogBundle/DataFixtures/ORM/CommentFixtures.php`` and add the
+We are now ready to define some fixtures for our ``Comment`` entity. Create a
+fixtures file at
+:file:`src/Blogger/BlogBundle/DataFixtures/ORM/CommentFixtures.php` and add the
 following content:
 
 .. code-block:: php
@@ -947,9 +959,10 @@ Comment show template
 
 The ``BloggerBlogBundle:Comment:index.html.twig`` we are including above does
 not exist yet so we need to create it. As this is just a template, we don't need
-to create a route or a controller for this, we only need the template file. Create
-a new file located at ``src/Blogger/BlogBundle/Resources/views/Comment/index.html.twig``
-and paste in the following.
+to create a route or a controller for this, we only need the template
+file. Create a new file located at
+:file:`src/Blogger/BlogBundle/Resources/views/Comment/index.html.twig` and paste
+in the following.
 
 .. code-block:: html
 
@@ -1083,9 +1096,9 @@ slightly different to the above where we just included a template.
 Routing
 ~~~~~~~
 
-We need to create a new route to handle the processing of submitted forms. Add
-a new route to  the routing file located at
-``src/Blogger/BlogBundle/Resources/config/routing.yml``.
+We need to create a new route to handle the processing of submitted forms. Add a
+new route to the routing file located at
+:file:`src/Blogger/BlogBundle/Resources/config/routing.yml`.
 
 .. code-block:: yaml
 
@@ -1100,8 +1113,9 @@ The controller
 ~~~~~~~~~~~~~~
 
 Next, we need to create the new ``Comment`` controller we have referenced above.
-Create a file located at ``src/Blogger/BlogBundle/Controller/CommentController.php`` and
-paste in the following.
+Create a file located at
+:file:`src/Blogger/BlogBundle/Controller/CommentController.php` and paste in the
+following.
 
 .. code-block:: php
 
@@ -1228,15 +1242,15 @@ The view
 ~~~~~~~~
 
 Next we need to create the 2 templates for the ``new`` and ``create`` controller
-actions. First create  a new file
-located at ``src/Blogger/BlogBundle/Resources/views/Comment/form.html.twig``
-and paste in the following.
+actions. First create a new file located at
+:file:`src/Blogger/BlogBundle/Resources/views/Comment/form.html.twig`` and paste
+in the following.
 
 .. code-block:: html
     
     {# src/Blogger/BlogBundle/Resources/views/Comment/form.html.twig #}
     
-    <form action="{{ path('BloggerBlogBundle_comment_create', { 'blog_id' : comment.blog.id } ) }}" method="post" {{ form_enctype(form) }} class="blogger">
+    <form class="blogger" action="{{ path('BloggerBlogBundle_comment_create', { 'blog_id' : comment.blog.id } ) }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
         <p>
             <input type="submit" value="Submit">
@@ -1248,8 +1262,8 @@ also notice the ``action`` of the form is to ``POST`` to the new route we create
 ``BloggerBlogBundle_comment_create``.
 
 Next lets add the template for the ``create`` view. Create a new file located at
-``src/Blogger/BlogBundle/Resources/views/Comment/create.html.twig``
-and paste in the following.
+:file:`src/Blogger/BlogBundle/Resources/views/Comment/create.html.twig` and
+paste in the following.
 
 .. code-block:: html
 

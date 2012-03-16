@@ -371,7 +371,7 @@ code located at ``src/Blogger/BlogBundle/Resources/views/Page/contact.html.twig`
 with the following.
 
 .. code-block:: html+jinja
-   :emphasize-lines: 14-23
+   :emphasize-lines: 13-23
 
     {# src/Blogger/BlogBundle/Resources/views/Page/contact.html.twig #}
     {% extends 'BloggerBlogBundle::layout.html.twig' %}
@@ -385,7 +385,7 @@ with the following.
 
         <p>Want to contact symblog?</p>
 
-        <form action="{{ path('BloggerBlogBundle_contact') }}" method="post" {{ form_enctype(form) }} class="blogger">
+        <form class="blogger" action="{{ path('BloggerBlogBundle_contact') }}" method="post" {{ form_enctype(form) }}>
             {{ form_errors(form) }}
 
             {{ form_row(form.name) }}
@@ -462,6 +462,7 @@ also use this stylesheet later, it makes sense to import it into the
 with the following content.
 
 .. code-block:: html+jinja
+   :emphasize-lines: 4-7
 
     {# src/Blogger/BlogBundle/Resources/views/layout.html.twig #}
     {% extends '::base.html.twig' %}
@@ -675,10 +676,10 @@ find the settings prefixed with ``mailer_``.
 
 .. code-block:: text
 
-    mailer_transport="smtp"
-    mailer_host="localhost"
-    mailer_user=""
-    mailer_password=""
+    mailer_transport: smtp
+    mailer_host:      localhost
+    mailer_user:      ~ 
+    mailer_password:  ~
 
 Swift Mailer provides a number of methods for sending emails, including using an
 SMTP server, using a local install of sendmail, or even using a GMail account.
@@ -687,12 +688,12 @@ substituting your username and password where necessary.
 
 .. code-block:: text
 
-    mailer_transport="gmail"
-    mailer_encryption="ssl"
-    mailer_auth_mode="login"
-    mailer_host="smtp.gmail.com"
-    mailer_user="your_username"
-    mailer_password="your_password"
+    mailer_transport:   gmail
+    mailer_encryption:  ssl
+    mailer_auth_mode:   login
+    mailer_host:        smtp.gmail.com
+    mailer_user:        your_username
+    mailer_password:    your_password
 
 .. warning::
 
@@ -823,7 +824,7 @@ the config into the main application config file located at ``app/config/config.
 To achieve this, update the ``imports`` directive at the top of the file to the following.
 
 .. code-block:: yaml
-   :emphasize-lines: 4
+   :emphasize-lines: 3,4
 
     # app/config/config.yml
     imports:

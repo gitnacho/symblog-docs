@@ -80,7 +80,7 @@ one to represent a blog entry. By defining an entity we are not automatically
 saying the data will be mapped to the database. We saw this with our ``Enquiry``
 entity where the data held in the entity was just emailed to the webmaster.
 
-Create a new file located at ``src/Blogger/BlogBundle/Entity/Blog.php`` and
+Create a new file located at :file:`src/Blogger/BlogBundle/Entity/Blog.php` and
 paste in the following.
 
 .. code-block:: php
@@ -128,6 +128,7 @@ map to the database. Replace the content of the ``Blog`` entity class located at
 ``src/Blogger/BlogBundle/Entity/Blog.php`` with the following.
 
 .. code-block:: php
+   :emphasize-lines: 6-11,14-23,26-28,31-33,36-38,41-43,48-50,53-55
 
     <?php
     // src/Blogger/BlogBundle/Entity/Blog.php
@@ -142,7 +143,7 @@ map to the database. Replace the content of the ``Blog`` entity class located at
      */
     class Blog
     {
-        /**
+        /** 
          * @ORM\Id
          * @ORM\Column(type="integer")
          * @ORM\GeneratedValue(strategy="AUTO")
@@ -165,7 +166,7 @@ map to the database. Replace the content of the ``Blog`` entity class located at
         protected $blog;
 
         /**
-         * @ORM\Column(type="string", length="20")
+         * @ORM\Column(type="string", length=20)
          */
         protected $image;
 
@@ -281,7 +282,7 @@ accessors.
         $ php app/console doctrine:mapping:convert --namespace="Blogger\BlogBundle\Entity\Blog" yaml src/Blogger/BlogBundle/Resources/config/doctrine
 
     This will created a file located at
-    ``src/Blogger/BlogBundle/Resources/config/doctrine/Blogger.BlogBundle.Entity.Blog.orm.yml``
+    :file:`src/Blogger/BlogBundle/Resources/config/doctrine/Blogger.BlogBundle.Entity.Blog.orm.yml`
     that will contain the ``blog`` entity mappings in ``yaml`` format.
 
 The database
@@ -290,9 +291,10 @@ The database
 Creating the database
 .....................
 
-If you followed along in chapter 1 of the tutorial, you should have
-used the web configurator to set the database settings. If you didn't, update the
-``database_*`` options in the parameters file located at ``app/config/parameters.ini``.
+If you followed along in chapter 1 of the tutorial, you should have used the web
+configurator to set the database settings. If you didn't, update the
+``database_*`` options in the parameters file located at
+:file:`app/config/parameters.yml`.
 
 Its now time to create the database using another Doctrine 2 task. This task only
 creates the database, it does not create any tables inside the database.
@@ -383,8 +385,9 @@ will begin creating the show page. We could add the ``show`` action to our exist
 ``Page`` controller but as this page is concerned with showing ``blog`` entities
 it would be better suited in its own ``Blog`` controller.
 
-Create a new file located at ``src/Blogger/BlogBundle/Controller/BlogController.php``
-and paste in the following.
+Create a new file located at
+:file:`src/Blogger/BlogBundle/Controller/BlogController.php` and paste in the
+following.
 
 .. code-block:: php
 
@@ -402,6 +405,8 @@ and paste in the following.
     {
         /**
          * Show a blog entry
+         *
+         * @param integer $id the ID from the blog
          */
         public function showAction($id)
         {
@@ -536,9 +541,11 @@ with the following.
 
 .. code-block:: css
 
-    .date { margin-bottom: 20px; border-bottom: 1px solid #ccc; font-size: 24px; color: #666; line-height: 30px }
+    .date { margin-bottom: 20px; border-bottom: 1px solid #ccc;
+     font-size: 24px; color: #666; line-height: 30px }
     .blog { margin-bottom: 20px; }
-    .blog img { width: 190px; float: left; padding: 5px; border: 1px solid #ccc; margin: 0 10px 10px 0; }
+    .blog img { width: 190px; float: left; padding: 5px; border: 1px
+     solid #ccc; margin: 0 10px 10px 0; }
     .blog .meta { clear: left; margin-bottom: 20px; }
     .blog .snippet p.continue { margin-bottom: 0; text-align: right; }
     .blog .meta { font-style: italic; font-size: 12px; color: #666; }
@@ -573,73 +580,62 @@ a much better method; Data Fixtures.
 Data Fixtures
 -------------
 
-We can use fixtures to populate the database with some sample/test data. To do this
-we use the Doctrine Fixtures extension and bundle. The Doctrine Fixtures
-extension and bundle do not come with the Symfony2 Standard Distribution, we need to
-manually install them. Fortunately this is an easy task. Open up the deps file located
-in the project root and add the Doctrine fixtures extension and bundle to it as
-follows.
+We can use fixtures to populate the database with some sample/test data. To do
+this we use the Doctrine Fixtures extension and bundle. The Doctrine Fixtures
+extension and bundle do not come with the Symfony2 Standard Distribution, we
+need to manually install them. Fortunately this is an easy task. Open up the
+:file:`compose.json` file located in the project root and add the Doctrine
+fixtures extension and bundle to it as follows.
 
 .. code-block:: text
+   :emphasize-lines: 5,6
 
-    [doctrine-fixtures]
-        git=http://github.com/doctrine/data-fixtures.git
+   "require": {
 
-    [DoctrineFixturesBundle]
-        git=http://github.com/symfony/DoctrineFixturesBundle.git
-        target=/bundles/Symfony/Bundle/DoctrineFixturesBundle
+       // ...
+
+       "doctrine/doctrine-bundle": "dev-master",
+       "doctrine/data-fixtures": "dev-master",
+
+       // ...
+
+   }
 
 Next update the vendors to reflect these changes.
 
 .. code-block:: bash
 
-    $ php bin/vendors install
+    $ php composer.phar update
 
-This will pull down the latest version of each of the repositories from Github and
-install them to the required location.
+This will pull down the latest version of each of the repositories and install
+them to the adequate location.
 
 .. note::
 
-    If you using a machine that does not have Git installed you will need to manually
-    download and install the extension and bundle.
-
-    doctrine-fixtures extension: `Download <https://github.com/doctrine/data-fixtures>`_
-    the current version of the package from GitHub and extract to the following location
-    ``vendor/doctrine-fixtures``.
-
-    DoctrineFixturesBundle: `Download <https://github.com/symfony/DoctrineFixturesBundle>`_
-    the current version of the package from GitHub and extract to the following location
-    ``vendor/bundles/Symfony/Bundle/DoctrineFixturesBundle``.
-
-Next update the ``app/autoloader.php`` file to register the new namespace.
-As DataFixtures are also in the ``Doctrine\Common`` namespace they must be placed above the existing
-``Doctrine\Common`` directive as they specify a new path. Namespaces are checked from top
-to bottom so more specific namespaces need to be registered before less specific ones.
-
-.. code-block:: php
-
-    // app/autoloader.php
-    // ...
-    $loader->registerNamespaces(array(
-    // ...
-    'Doctrine\\Common\\DataFixtures'    => __DIR__.'/../vendor/doctrine-fixtures/lib',
-    'Doctrine\\Common'                  => __DIR__.'/../vendor/doctrine-common/lib',
-    // ...
-    ));
+    If you using a machine that does not have :file:`composer.phar` installed
+    you will need to manually download and install the extension and bundle. See
+    the page `DoctrineFixturesBundle
+    <http://symfony.com/doc/current/bundles/DoctrineFixturesBundle/index.html>`_
+    for information on alternate methods of installation.
 
 Now lets register the ``DoctrineFixturesBundle`` in the kernel located at
 ``app/AppKernel.php``
 
 .. code-block:: php
+   :emphasize-lines: 8
 
     // app/AppKernel.php
     public function registerBundles()
     {
         $bundles = array(
+
             // ...
-            new Symfony\Bundle\DoctrineFixturesBundle\DoctrineFixturesBundle(),
+
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+
             // ...
         );
+
         // ...
     }
 
@@ -647,7 +643,8 @@ Blog Fixtures
 ~~~~~~~~~~~~~
 
 We are now ready to define some fixtures for our blogs. Create a fixture file at
-``src/Blogger/BlogBundle/DataFixtures/ORM/BlogFixtures.php`` and add the following content:
+:file:`src/Blogger/BlogBundle/DataFixtures/ORM/BlogFixtures.php` and add the
+following content:
 
 .. code-block:: php
 
@@ -808,6 +805,7 @@ This is done using metadata on the entity. Update the ``Blog`` entity located at
 ``src/Blogger/BlogBundle/Entity/Blog.php`` with the following.
 
 .. code-block:: php
+   :emphasize-lines: 9
 
     <?php
     // src/Blogger/BlogBundle/Entity/Blog.php
@@ -829,6 +827,7 @@ event. We also add a constructor to set default values for the ``created`` and
 ``updated`` members.
 
 .. code-block:: php
+   :emphasize-lines: 15-27
 
     <?php
     // src/Blogger/BlogBundle/Entity/Blog.php

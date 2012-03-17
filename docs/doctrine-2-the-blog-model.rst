@@ -125,7 +125,7 @@ including ``YAML``, ``PHP``, ``XML`` and ``Annotations``. We will use
 in the entity need to be persisted, so we won't provide metadata for these.
 This gives us the flexibility to choose only the members we require Doctrine 2 to
 map to the database. Replace the content of the ``Blog`` entity class located at
-``src/Blogger/BlogBundle/Entity/Blog.php`` with the following.
+:file:`src/Blogger/BlogBundle/Entity/Blog.php` with the following.
 
 .. code-block:: php
    :emphasize-lines: 6-11,14-23,26-28,31-33,36-38,41-43,48-50,53-55
@@ -352,10 +352,10 @@ show page of our blog.
 The Show Blog Route
 ~~~~~~~~~~~~~~~~~~~
 
-We begin by creating a route for the blog ``show`` action. A blog will be identified
-by its unique ID, so this ID will need to be present in the URL. Update the
-``BloggerBlogBundle`` routing located at ``src/Blogger/BlogBundle/Resources/config/routing.yml``
-with the following
+We begin by creating a route for the blog ``show`` action. A blog will be
+identified by its unique ID, so this ID will need to be present in the
+URL. Update the ``BloggerBlogBundle`` routing located at
+:file:`src/Blogger/BlogBundle/Resources/config/routing.yml` with the following:
 
 .. code-block:: yaml
 
@@ -500,9 +500,10 @@ The View
 
 Now we have built the ``show`` action for the ``Blog`` controller we can focus
 on displaying the ``Blog`` entity. As specified in the ``show`` action the
-template ``BloggerBlogBundle:Blog:show.html.twig`` will be rendered. Let's create
-this template located at ``src/Blogger/BlogBundle/Resouces/views/Blog/show.html.twig``
-and paste in the following.
+template ``BloggerBlogBundle:Blog:show.html.twig`` will be rendered. Let's
+create this template located at
+:file:`src/Blogger/BlogBundle/Resouces/views/Blog/show.html.twig` and paste in
+the following.
 
 .. code-block:: html
     
@@ -535,9 +536,9 @@ again here to render the blog image. The blog images should be placed in the
 CSS
 ...
 
-In order to ensure the blog show page looks beautiful, we need to add some styling.
-Update the stylesheet located at ``src/Blogger/BlogBundle/Resouces/public/css/blog.css``
-with the following.
+In order to ensure the blog show page looks beautiful, we need to add some
+styling.  Update the stylesheet located at
+:file:`src/Blogger/BlogBundle/Resouces/public/css/blog.css` with the following:
 
 .. code-block:: css
 
@@ -619,7 +620,7 @@ them to the adequate location.
     for information on alternate methods of installation.
 
 Now let's register the ``DoctrineFixturesBundle`` in the kernel located at
-``app/AppKernel.php``
+:file:`app/AppKernel.php`.
 
 .. code-block:: php
    :emphasize-lines: 8
@@ -802,7 +803,7 @@ during the entity lifetime. Some example of events we can be notified about
 include before an update happens, after a persist happens and after a remove happens.
 In order to use Lifecycle Callbacks on our entity we need to register the entity for them.
 This is done using metadata on the entity. Update the ``Blog`` entity located at
-``src/Blogger/BlogBundle/Entity/Blog.php`` with the following.
+:file:`src/Blogger/BlogBundle/Entity/Blog.php` with the following.
 
 .. code-block:: php
    :emphasize-lines: 9
